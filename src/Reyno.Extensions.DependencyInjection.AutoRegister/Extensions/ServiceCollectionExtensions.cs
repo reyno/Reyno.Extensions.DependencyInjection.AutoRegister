@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection {
 
-    internal static class ServiceCollectionExtensions {
+    public static class ServiceCollectionExtensions {
 
         public static void AutoRegisterServices(this IServiceCollection services, Assembly[] assemblies) {
 
@@ -16,24 +16,16 @@ namespace Microsoft.Extensions.DependencyInjection {
 
         }
 
-        internal static Type[] GetInterfaces(TypeInfo implementationType, AutoRegisterAttribute attribute) {
+        public static Type[] GetInterfaces(TypeInfo implementationType, AutoRegisterAttribute attribute) {
 
             var allInterfaces = implementationType.GetInterfaces();
 
             if (attribute.ServiceTypes != default && attribute.ServiceTypes.Length > 0) {
-                var invalidInterfaces = attribute.ServiceTypes.Where(x => !x.IsAssignableFrom(implementationType));
-                if (invalidInterfaces.Count() > 0)
-                    throw new InvalidOperationException(
-                        string.Concat(
-                            Environment.NewLine,
-                            $"[{implementationType.FullName}] does not implement the following types",
-                            string.Concat(
-                                invalidInterfaces.Select(x => string.Concat(Environment.NewLine, $" - {x.FullName}"))
-                                ),
-                            Environment.NewLine
-                            ));
+
+                ValidateInterfaces(implementationType, attribute);          
 
                 return attribute.ServiceTypes;
+
             }
 
             return allInterfaces.Count() == 0
@@ -43,6 +35,22 @@ namespace Microsoft.Extensions.DependencyInjection {
 
         }
 
+        public static void ValidateInterfaces(TypeInfo implementationType, AutoRegisterAttribute attribute) {
+
+            var invalidInterfaces = attribute.ServiceTypes.Where(x => !x.IsAssignableFrom(implementationType));
+
+            if (invalidInterfaces.Count() > 0)
+                throw new InvalidOperationException(
+                    string.Concat(
+                        Environment.NewLine,
+                        $"[{implementationType.FullName}] does not implement the following types:",
+                        string.Concat(
+                            invalidInterfaces.Select(x => string.Concat(Environment.NewLine, $" - {x.FullName}"))
+                            ),
+                        Environment.NewLine
+                        ));
+
+        }
 
         public static IEnumerable<(TypeInfo typeInfo, AutoRegisterAttribute attribute)> GetTypesToRegister(Assembly[] assemblies)
             => from assembly in assemblies
