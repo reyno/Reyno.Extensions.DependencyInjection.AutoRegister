@@ -19,7 +19,7 @@ namespace AutoRegisterTests {
                 );
 
             Assert.ThrowsException<InvalidOperationException>(() =>
-                ServiceCollectionExtensions.GetInterfaces(
+                AutoRegisterServiceCollectionExtensions.GetInterfaces(
                     typeof(ImplementsNoInterface).GetTypeInfo(),
                     attribute
                     )
@@ -35,7 +35,7 @@ namespace AutoRegisterTests {
                 );
 
             var interfaces =
-                ServiceCollectionExtensions.GetInterfaces(
+                AutoRegisterServiceCollectionExtensions.GetInterfaces(
                     typeof(ImplementsNoInterface).GetTypeInfo(),
                     attribute
                     );
@@ -54,7 +54,7 @@ namespace AutoRegisterTests {
                 );
 
             var interfaces =
-                ServiceCollectionExtensions.GetInterfaces(
+                AutoRegisterServiceCollectionExtensions.GetInterfaces(
                     typeof(ImplementsService1And2).GetTypeInfo(),
                     attribute
                     );
@@ -72,7 +72,7 @@ namespace AutoRegisterTests {
                 );
 
             var interfaces =
-                ServiceCollectionExtensions.GetInterfaces(
+                AutoRegisterServiceCollectionExtensions.GetInterfaces(
                     typeof(ImplementsService1And2).GetTypeInfo(),
                     attribute
                     );
