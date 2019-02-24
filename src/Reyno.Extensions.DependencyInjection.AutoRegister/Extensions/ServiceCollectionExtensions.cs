@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection {
 
-    public static class ServiceCollectionExtensions {
+    public static class AutoRegisterServiceCollectionExtensions {
 
         public static void AutoRegisterServices(this IServiceCollection services, Assembly[] assemblies) {
 

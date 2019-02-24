@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Microsoft.AspNetCore.Hosting {
 
-    public static class WebHostBuilderExtensions {
+    public static class AutoRegisterWebHostBuilderExtensions {
 
         public static IWebHostBuilder AutoRegisterServices(this IWebHostBuilder webHostBuilder)
             => AutoRegisterServices(

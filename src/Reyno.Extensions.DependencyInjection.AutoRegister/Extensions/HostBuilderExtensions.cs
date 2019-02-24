@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.Hosting {
 
-    public static class HostBuilderExtensions {
+    public static class AutoRegisterHostBuilderExtensions {
 
         public static IHostBuilder AutoRegisterServices(this IHostBuilder hostBuilder) {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
