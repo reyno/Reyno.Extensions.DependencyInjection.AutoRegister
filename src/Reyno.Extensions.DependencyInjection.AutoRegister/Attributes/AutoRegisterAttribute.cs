@@ -7,6 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection {
 
         public readonly ServiceLifetime ServiceLifetime;
         public readonly Type[] ServiceTypes;
+        public bool AllowDuplicate { get; set; } = false;
 
         public AutoRegisterAttribute(
             ServiceLifetime serviceLifetime,

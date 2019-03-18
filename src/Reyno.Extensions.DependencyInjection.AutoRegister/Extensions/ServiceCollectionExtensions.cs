@@ -65,12 +65,15 @@ namespace Microsoft.Extensions.DependencyInjection {
 
             foreach (var serviceType in interfaces) {
 
-                var usageAttribute = serviceType.GetCustomAttribute<AutoRegisterUsageAttribute>();
 
-                // check for multiples
-                var allowMultiple = !(usageAttribute?.AllowMultiple).IsDefault();
-                if (!allowMultiple && services.Any(x => x.ServiceType == serviceType))
-                    throw new InvalidOperationException($"Multiple registrations of type [{serviceType.FullName}] not allowed.");
+                if (!attribute.AllowDuplicate)
+                {
+                    // check for duplicates
+                    var usageAttribute = serviceType.GetCustomAttribute<AutoRegisterUsageAttribute>();
+                    var allowMultiple = !(usageAttribute?.AllowMultiple).IsDefault();
+                    if (!allowMultiple && services.Any(x => x.ServiceType == serviceType))
+                        throw new InvalidOperationException($"Multiple registrations of type [{serviceType.FullName}] not allowed.");
+                }
 
                 services.Add(new ServiceDescriptor(
                     serviceType,
